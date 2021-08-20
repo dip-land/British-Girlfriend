@@ -1,0 +1,50 @@
+const {twitter, colors} = require('../config.json'), DData = require('./data/data.json'), {writeFile} = require('fs'), { MessageEmbed } = require('discord.js'), 
+fetch = require("node-fetch"), Twit = require('twit'); require('dotenv').config();
+module.exports = {
+    start(client){
+        var T = new Twit({
+            consumer_key: process.env.consumer_key,
+            consumer_secret: process.env.consumer_secret,
+            access_token: process.env.access_token,
+
+            access_token_secret: process.env.access_token_secret
+        })
+        setInterval(()=>{
+            client.channels.fetch(`${twitter}`).then(channel => {
+                T.get('statuses/user_timeline', { screen_name: 'amane_kakuyomu', exclude_replies: true, include_rts: false, count: 5 }, function (err, data, response) {
+                    data.forEach(tweet => {
+                        const found = DData.twitter.find(element => element === tweet.id_str);
+                        if(found){}
+                        else{
+                            let type = 'tweeted', media = null, text = null, extra = [];
+                            if(/(https:\/\/t.co\/)\w+/g.test(tweet.text)){textParts = tweet.text.split(/(https:\/\/t.co\/)\w+/g)}else{text = tweet.text}
+                            if(tweet.entities.media !== undefined){media = tweet.entities.media.media_url}
+                            tweet.entities.urls.forEach(u => {
+                                if(/(https:\/\/twitter.com\/)\w+/g.test(u.expanded_url)){
+                                    let id = u.expanded_url.replace(/.+(?=status)status\//, '');
+                                    T.get('statuses/show/:id', { id: id }, function(err, data, res){
+                                        let dqs = data.quoted_status;
+                                        extra.push(`\n\n**Tweet embed:** [${dqs.user.name} (@${dqs.user.screen_name})](${u.expanded_url})\n${dqs.text}`)
+                                        if(dqs.entities.media !== undefined){media = dqs.entities.media.media_url}
+                                        console.log(extra)
+                                    })
+                                } else { extra.push(`\n**${u.expanded_url}**`) }
+                            }).then(() => {
+                                const embed = new MessageEmbed()
+                                .setAuthor(`${tweet.user.name} (@${tweet.user.screen_name}) ${type}`, tweet.user.profile_image_url, `https://twitter.com/${tweet.user.screen_name}`)
+                                .setDescription(`${text} ${extra}\n\n[Click here to view tweet on Twitter](https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str})`)
+                                .setImage(media)
+                                .setColor(colors.main)
+                                channel.send({ embeds: [embed]})
+                                console.log(extra)
+                                DData.twitter.push(tweet.id_str)
+                                writeFile(`C:/Bots/DiscordBots/Ryoushin/rss/data/data.json`, JSON.stringify(DData, null, 1), (err) =>{ if(err) console.log(err) });
+                            })
+                            
+                        }
+                    });
+                })
+            })
+        }, 25000)
+    }
+}

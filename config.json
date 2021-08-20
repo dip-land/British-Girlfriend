@@ -1,0 +1,27 @@
+{  
+    "activity": {
+        "0" : {"desc" : "N/A", "type" : "PLAYING"},
+        "1" : {"desc" : "N/A", "type" : "PLAYING"}
+    },
+    "colors": {
+        "main": "#008000",
+        "purple": "#8E14FF",
+        "reddit": "#FF5700",
+        "osu": "#FF66AA",
+        "quiteDark": "#1A1A1A",
+        "prettyBright": "#E6E6E6",
+        "black": "#000000",
+        "white": "#FFFFFF",
+        "Gold": "#FACC00",
+        "Silver": "#A8A8A8",
+        "Bronze": "#965A38", 
+        "red": "#ED4245", 
+        "green": "43B581",
+        "orange": "#F57731",
+        "offWhite": "#CCCCCC"
+    },
+    "feedsData" : "C:/Bots/DiscordBots/Ore_iinazuke/feeds/data.json",
+    "feedsJson" : "C:/Bots/DiscordBots/Ore_iinazuke/feeds/feeds.json",
+    "economyData" : "C:/Bots/DiscordBots/Ore_iinazuke/data.json",
+    "prefixes": ["o!", "<@!877995660878684252> ", "<@!877995660878684252>"]
+}
