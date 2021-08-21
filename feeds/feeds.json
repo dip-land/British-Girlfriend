@@ -1,20 +1,14 @@
 {
     "fandom": {
-        "name":"Ryoushin no Shakkin Wiki: Recent changes",
+        "name":"The British Girlfriend: Recent changes",
         "link":"https://the-british-girlfriend.fandom.com/api.php?action=query&list=recentchanges&rcprop=user|userid|comment|parsedcomment|flags|timestamp|title|ids|sizes|redirect|loginfo|tags&format=json",
-        "channel":"868176065963642930",
+        "channel":"878328991377928213",
         "cooldown": 25
     },
     "reddit": {
-        "name":"Ryoushin no Shakkin Reddit: New Posts",
-        "link":"https://www.reddit.com/r/RyoushinNoShakkin/new.rss",
-        "channel":"868176065963642930",
-        "cooldown": 30
-    },
-    "twitter": {
-        "name":"Twitter: @amane_kakuyomu New Posts",
-        "link":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=amane_kakuyomu&exclude_replies=true&include_rts=false&count=5",
-        "channel":"868176065963642930",
+        "name":"The British Girlfriend Reddit: New Posts",
+        "link":"https://www.reddit.com/r/TheBritishGirlfriend/new.rss",
+        "channel":"878328891310235678",
         "cooldown": 30
     }
 }

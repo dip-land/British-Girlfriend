@@ -34,7 +34,7 @@ module.exports = {
 			data.push(`**• NSFW:** ${command.nsfw}`);
 			data.push(`**• Disabled:** ${command.disabled}`);
 			if(command.permissions === undefined){data.push(`**• Permissions:** NONE`)} else {data.push(`**• Permissions:** ${command.permissions}`)};
-			message.channel.send({ embeds: [new MessageEmbed().setAuthor(title.join(''), avatar).setDescription(data.join('\n')).setColor(colors.main)]})
+			message.channel.send({embeds:[new MessageEmbed().setAuthor(title.join(''), avatar).setDescription(data.join('\n')).setColor(colors.main)]})
 		}
     }
 }

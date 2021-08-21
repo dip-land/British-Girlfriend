@@ -1,7 +1,7 @@
 module.exports = {
     name: 'Say',
     aliases: ['say'],
-    description: 'Make Ryoushin say whatever you want!',
+    description: 'Make the bot say whatever you want!',
     usage: 'say [String]',
     examples: ['say You should add shhh#7612!'],
     cooldown: 2.5,

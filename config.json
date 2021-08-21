@@ -4,7 +4,7 @@
         "1" : {"desc" : "N/A", "type" : "PLAYING"}
     },
     "colors": {
-        "main": "#008000",
+        "main": "#e8ba3c",
         "purple": "#8E14FF",
         "reddit": "#FF5700",
         "osu": "#FF66AA",
@@ -20,8 +20,8 @@
         "orange": "#F57731",
         "offWhite": "#CCCCCC"
     },
-    "feedsData" : "C:/Bots/DiscordBots/Ore_iinazuke/feeds/data.json",
-    "feedsJson" : "C:/Bots/DiscordBots/Ore_iinazuke/feeds/feeds.json",
-    "economyData" : "C:/Bots/DiscordBots/Ore_iinazuke/data.json",
-    "prefixes": ["o!", "<@!877995660878684252> ", "<@!877995660878684252>"]
+    "feedsData" : "C:/Bots/DiscordBots/tbg/feeds/data.json",
+    "feedsJson" : "C:/Bots/DiscordBots/tbg/feeds/feeds.json",
+    "economyData" : "C:/Bots/DiscordBots/tbg/data.json",
+    "prefixes": ["b!", "<@!878306354014593036> ", "<@!878306354014593036>"]
 }

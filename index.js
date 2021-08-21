@@ -1,6 +1,6 @@
 const {Client, Collection} = require("discord.js");
 const {prefixes} = require("./config.json");
-const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS'], ws: { properties: { $browser: 'Discord iOS' }}})
+const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS'], ws: { properties: { $browser: 'Discord.js' }}})
 const cooldowns = new Collection();
 client.commands = new Collection(); 
 require('dotenv').config(); 
@@ -10,8 +10,8 @@ require("glob")('./Commands/**/*.js', function (err, res) {
 })
 
 client.on('ready', () =>{
-    //require('./feeds/feed.js').start(client);
-    require('./handlers/activity.js').start(client);
+    require('./feeds/feed.js').start(client);
+    //require('./handlers/activity.js').start(client);
     console.log(`online`);
 })
 
