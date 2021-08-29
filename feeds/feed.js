@@ -23,7 +23,7 @@ module.exports = {
                             if(post.minor !== undefined){comment = `*Minor Edit* (${post.parsedcomment})`}
                             if(post.parsedcomment === ''){comment = ''}
                             if(type === null){console.log(value); type = post.type; color = colors.red}
-                            channel.send({embeds:[new MessageEmbed().setDescription(`[${post.user}](${wiki}User:${(post.user).replace(/ /g,"_")}) ${type} [${post.title}](${wiki}${(post.title).replace(/ /g,"_")}) ([cur](${wiki}${(post.title).replace(/ /g,"_")}?curid=${post.pageid}&diff=0&oldid=${post.revid}) | [diff](${wiki}${(post.title).replace(/ /g,"_")}?curid=${post.pageid}&diff=${post.revid}&oldid=${post.old_revid})) (${length}) ${comment}`).setColor(color).setTimestamp()]})
+                            channel.send({embeds:[new MessageEmbed().setDescription(`[${post.user}](${wiki}User:${(post.user).replace(/ /g,"_")}) ${type} [${post.title}](${wiki}${(post.title).replace(/ /g,"_")}) ([cur](${wiki}${(post.title).replace(/ /g,"_")}?curid=${post.pageid}&diff=0&oldid=${post.revid}) | [diff](${wiki}${(post.title).replace(/ /g,"_")}?curid=${post.pageid}&diff=${post.revid}&oldid=${post.old_revid})) (${length}) ${comment}`).setColor(color).setTimestamp(new Date(post.timestamp))]})
                             data.fandom.push(`${post.revid}${post.pageid}${post.userid}`)
                             writeData(data);
                         }
@@ -50,7 +50,7 @@ module.exports = {
                                         let parts = (post.media_metadata[Object.keys(post.media_metadata)[Object.keys(post.media_metadata).length - 1]].s.u).split('amp;');
                                         image = parts.join('');
                                     }
-                                    channel.send({embeds:[new MessageEmbed().setTitle(item.title).setURL(item.link).setDescription(stp.join('')).setImage(image).setColor(colors.main).setTimestamp()]})
+                                    channel.send({embeds:[new MessageEmbed().setTitle(item.title).setURL(item.link).setDescription(stp.join('')).setImage(image).setColor(colors.main).setFooter(`Posted by: ${post.author}`).setTimestamp(new Date((post.created * 1000)))]})
                                     data.reddit.push(item.id); 
                                     writeData(data);
                                 }).catch(error => {})

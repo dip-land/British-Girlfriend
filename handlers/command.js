@@ -3,8 +3,9 @@ const {toHMS} = require('../functions');
 module.exports = {
     execute(message, client, cooldowns, prefix) {
         if (prefix === undefined  || message.author.bot) return;
-        const args = message.content.slice(prefix.length).trim().split(/ +/), commandName = args.shift().toLowerCase(), 
-        command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        const args = message.content.slice(prefix.length).trim().split(/ +/);
+        console.log(args);
+        const commandName = args.shift().toLowerCase(), command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
         if(!command) return;
         if(command.nsfw && !message.channel.nsfw) return;
         if(message.author.id !== '439039443744063488'){

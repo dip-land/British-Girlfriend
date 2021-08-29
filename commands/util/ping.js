@@ -3,7 +3,7 @@ const {colors} = require("../../config.json");
 module.exports = {
     name: 'Ping',
     aliases: ['ping'],
-    description: 'Shows bots ping and API ping.',
+    description: 'Shows message round trip latency and API ping.',
     usage: '&&ping',
     examples: ['NONE'],
     cooldown: 2.5,
