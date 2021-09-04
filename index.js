@@ -7,6 +7,7 @@ const commands = [];
 const cooldowns = new Collection();
 client.commands = new Collection(); 
 require('dotenv').config(); 
+require('os').setPriority(-20);
 
 require("glob")('./commands/**/*.js', function (err, res) {
     res.forEach(async cmd => {
@@ -58,11 +59,11 @@ client.on('interactionCreate', interaction => {
 
 client.login(process.env.token);
 
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-})
+// const readline = require('readline').createInterface({
+//     input: process.stdin,
+//     output: process.stdout
+// })
 
-readline.on('line', (input) => {
-    console.log(`Received: ${input}`);
-});
+// readline.on('line', (input) => {
+//     console.log(`Received: ${input}`);
+// });

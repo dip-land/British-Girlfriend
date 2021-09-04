@@ -9,7 +9,7 @@ module.exports = {
 		//const mentionable = interaction.options.getMentionable('mentionable');
 		require("glob")(`c:/bots/discordbots/tbg/commands/**/${interaction.commandName}.js`, function (err, res) {
 			res.forEach(async cmd => {
-				console.log(cmd)
+				console.log(`${interaction.user.tag} used ${interaction.commandName}`);
 				const command = require(cmd);
 				if(command.permissions){
 					if(interaction.member.permissions.has(command.permissions)){

@@ -1,3 +1,4 @@
+const player = require('../../handlers/player');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     name: 'Play',
@@ -13,9 +14,9 @@ module.exports = {
     execute(message, args){
         if(message.member.voice.channel !== null){
             if(message.guild.me.voice.channel === null){
-                require('../../handlers/player').join(message.member.voice.channelId, message.guildId, message.guild.voiceAdapterCreator);
+                player.join(message.member.voice.channelId, message.guildId, message.guild.voiceAdapterCreator);
             }
-            require('../../handlers/player').queue(args[0], message.author);
+            player.queue(args[0], message.author);
         }else{
             message.reply(`You have to be in a voice channel first.`);
         }

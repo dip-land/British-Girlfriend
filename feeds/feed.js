@@ -3,7 +3,6 @@ const data = require(feedsData)
 const {MessageEmbed} = require('discord.js')
 const fetch = require('node-fetch'); 
 const {fandom, reddit} = require(feedsJson);
-const twitter = undefined;
 module.exports = {
     start(client){
         //The British Girlfriend Wiki: Recent changes
@@ -60,50 +59,6 @@ module.exports = {
                 })();
             }).catch(console.error);
         }, (reddit.cooldown * 1000))
-        //Twitter Unused
-        if(twitter !== undefined){
-            const Twit = require('twit'), T = new Twit({consumer_key: process.env.tck,consumer_secret: process.env.tcs,access_token: process.env.tat,access_token_secret: process.env.tats})
-            setInterval(()=>{
-                client.channels.fetch(twitter.channel).then(channel => {
-                    T.get('statuses/user_timeline', {screen_name:'', exclude_replies:true, include_rts:false, count:5, tweet_mode:'extended'}, function(err, tweets, response){
-                        try{
-                            tweets.forEach(tweet => {
-                                const found = data.twitter.find(element => element === tweet.id_str);
-                                if(found === undefined){
-                                    let media = null, extra = [], text = null;
-                                    if(/(https:\/\/t.co\/)\w+/g.test(tweet.full_text)){text = tweet.full_text.replace(/(https:\/\/t.co\/)\w+/gi, '')}else{text = tweet.full_text}
-                                    if(tweet.extended_entities !== undefined){media = tweet.extended_entities.media[0].media_url_https}
-                                    tweet.entities.hashtags.forEach(tag =>{
-                                        text = text.replace(`#${tag.text}`, `[#${tag.text}](https://twitter.com/hashtag/${tag.text})`)
-                                    })
-                                    tweet.entities.urls.forEach(u => {
-                                        if(/(https:\/\/twitter.com\/)\w+/g.test(u.expanded_url)){
-                                            let id = u.expanded_url.replace(/.+(?=status)status\//, '');
-                                            T.get('statuses/show/:id', { id: id }, function(err, data, res){
-                                                let dqs = data.quoted_status;
-                                                extra.push(`\n\n**Tweet embed:** [${dqs.user.name} (@${dqs.user.screen_name})](${u.expanded_url})\n${dqs.text}`)
-                                                if(dqs.entities.media !== undefined){media = dqs.entities.media.media_url}
-                                            })
-                                        }else{extra.push(`\n**${u.expanded_url}**`)}
-                                    })
-                                    channel.send({embeds:[
-                                        new MessageEmbed()
-                                        .setAuthor(`${tweet.user.name} (@${tweet.user.screen_name})`, tweet.user.profile_image_url, `https://twitter.com/${tweet.user.screen_name}`)
-                                        .setDescription(`${text} ${extra}\n\n[**Click to view full tweet on Twitter**](https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str})`)
-                                        .setImage(media)
-                                        .setColor(colors.main)
-                                        .setFooter('Twitter', 'https://abs.twimg.com/icons/apple-touch-icon-192x192.png')
-                                        .setTimestamp(new Date(tweet.created_at))
-                                    ]})
-                                    data.twitter.push(tweet.id_str); 
-                                    writeData(data);
-                                }
-                            });
-                        }catch(e){}
-                    })
-                })
-            }, (twitter.cooldown * 1000))
-        }
     }
 }
 function writeData(data){require('fs').writeFile(feedsData, JSON.stringify(data),(err)=>{if(err)console.log(err)})}

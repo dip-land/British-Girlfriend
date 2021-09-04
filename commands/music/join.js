@@ -1,3 +1,4 @@
+const player = require('../../handlers/player');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     name: 'Join',
@@ -13,7 +14,10 @@ module.exports = {
     execute(message, args){
         if(message.member.voice.channel !== null){
             if(message.guild.me.voice.channel === null){
-                require('../../handlers/player').join(message.member.voice.channelId, message.guildId, message.guild.voiceAdapterCreator);
+                message.reply(`Joining <#${message.member.voice.channel.id}>...`).then(msg => {
+                    player.join(message.member.voice.channelId, message.guildId, message.guild.voiceAdapterCreator);
+                    msg.edit(`Joined <#${message.member.voice.channel.id}>.`)
+                })
             }else{
                 message.reply('Bot is already in a channel.')
             }

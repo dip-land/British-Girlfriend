@@ -1,3 +1,4 @@
+const player = require('../../handlers/player');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     name: 'Disconnect',
@@ -13,7 +14,10 @@ module.exports = {
     execute(message, args){
         if(message.member.voice.channel !== null){
             if(message.guild.me.voice.channel !== null){
-                require('../../handlers/player').leave(message.guildId);
+                message.reply(`Disconnecting from <#${message.member.voice.channel.id}>...`).then(msg => {
+                    player.leave(message.guildId);
+                    msg.edit(`Successfully disconnected from <#${message.member.voice.channel.id}>.`)
+                })
             }else{
                 message.reply('Bot hasn\'t joined the channel.')
             }

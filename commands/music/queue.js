@@ -1,3 +1,4 @@
+const player = require('../../handlers/player');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     name: 'Queue',
@@ -11,14 +12,18 @@ module.exports = {
     disabled: true,
     //permissions: '',
     execute(message, args){
-        if(message.member.voice.channel !== null){
-            if(message.guild.me.voice.channel !== null){
-                //require('../../handlers/player').getNextSong();
-            }else{
-                message.reply('Bot hasn\'t joined the channel, please use the `join` command.')
-            }
+        if(message.guild.me.voice.channel !== null){
+            player.getQueue.then(queue => {
+                if(queue.status === 0){
+                    message.reply(`There is nothing in the queue, you can add songs with the \`play\` command.`)
+                } else {
+                    queue.queue.forEach(item => {
+                        
+                    });
+                }
+            })
         }else{
-            message.reply(`You have to be in a voice channel first.`);
+            message.reply('Bot hasn\'t joined the channel, please use the `join` command.')
         }
     }
 }

@@ -1,3 +1,4 @@
+const player = require('../../handlers/player');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     name: 'Resume',
@@ -13,7 +14,18 @@ module.exports = {
     execute(message, args){
         if(message.member.voice.channel !== null){
             if(message.guild.me.voice.channel !== null){
-                require('../../handlers/player').unpause();
+                player.getNowPlaying().then(np => {
+                    if(np.url){
+                        if(np.player_status === "Playing"){
+                            message.reply(`${np.song_information.title} is already playing, ${np.time}/${np.song_information.duration}`)
+                        } else {
+                            player.resume();
+                            message.reply(`Resumed ${np.song_information.title}, ${np.time}/${np.song_information.duration}`)
+                        }
+                    } else {
+                        message.reply(`There was nothing playing, you can play/add sonngs to the queue with the \`play\` command.`)
+                    }
+                })
             }else{
                 message.reply('Bot hasn\'t joined the channel, please use the `join` command.')
             }

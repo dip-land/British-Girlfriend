@@ -1,3 +1,4 @@
+const player = require('../../handlers/player');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     name: 'Skip',
@@ -13,7 +14,7 @@ module.exports = {
     execute(message, args){
         if(message.member.voice.channel !== null){
             if(message.guild.me.voice.channel !== null){
-                require('../../handlers/player').getNextSong();
+                require('../../handlers/player').skip();
             }else{
                 message.reply('Bot hasn\'t joined the channel, please use the `join` command.')
             }
