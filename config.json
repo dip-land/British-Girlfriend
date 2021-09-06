@@ -1,7 +1,6 @@
 {  
     "activity": {
-        "0" : {"desc" : "N/A", "type" : "PLAYING"},
-        "1" : {"desc" : "N/A", "type" : "PLAYING"}
+        "0" : {"desc" : "music", "type" : "LISTENING"}
     },
     "colors": {
         "main": "#e8ba3c",
@@ -20,8 +19,8 @@
         "orange": "#F57731",
         "offWhite": "#CCCCCC"
     },
-    "feedsData" : "C:/Bots/DiscordBots/tbg/feeds/data.json",
-    "feedsJson" : "C:/Bots/DiscordBots/tbg/feeds/feeds.json",
-    "economyData" : "C:/Bots/DiscordBots/tbg/data.json",
+    "feedsData" : "c:/projects/DiscordBots/tbg/feeds/data.json",
+    "feedsJson" : "c:/projects/DiscordBots/tbg/feeds/feeds.json",
+    "economyData" : "c:/projects/DiscordBots/tbg/data.json",
     "prefixes": ["b!", "<@!878306354014593036> ", "<@!878306354014593036>"]
 }

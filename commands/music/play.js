@@ -16,7 +16,7 @@ module.exports = {
             if(message.guild.me.voice.channel === null){
                 player.join(message.member.voice.channelId, message.guildId, message.guild.voiceAdapterCreator);
             }
-            player.queue(args[0], message.author);
+            player.queue(args[0], message);
         }else{
             message.reply(`You have to be in a voice channel first.`);
         }

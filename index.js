@@ -21,8 +21,7 @@ require("glob")('./commands/**/*.js', function (err, res) {
 
 client.on('ready', () =>{
     require('./feeds/feed.js').start(client);
-    //require('./handlers/activity.js').start(client);
-
+    require('./handlers/activity.js').start(client);
     const rest = new REST({ version: '9' }).setToken(process.env.token);
     const clientId = '878306354014593036', guildId = '708032158614159432', guildId_2 = '877197137807540276';
     (async () => {
@@ -42,28 +41,9 @@ client.on('messageCreate', message =>{
     try {require('./handlers/command.js').execute(message, client, cooldowns, prefix)} catch(error){console.error(error)}
 });
 
-client.on('messageUpdate', message => {
-    const newMessage = message.reactions.message, prefix = prefixes.find(p => message.content.startsWith(p));
-    newMessage.guild = message.guild; newMessage.createdTimestamp = newMessage.editedTimestamp;
-    try {require('./handlers/command.js').execute(newMessage, client, cooldowns, prefix)} catch(error){console.error(error)}
-})
-
-client.on('guildMemberAdd', member => {
-    //require('./handlers/member.js').join(member);
-})
-
 client.on('interactionCreate', interaction => {
     if(interaction.isButton() || interaction.isSelectMenu()){require('./handlers/buttons').execute(interaction)}
     if(interaction.isCommand()){require('./handlers/slash').execute(interaction, client)}
 })
 
 client.login(process.env.token);
-
-// const readline = require('readline').createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-// })
-
-// readline.on('line', (input) => {
-//     console.log(`Received: ${input}`);
-// });

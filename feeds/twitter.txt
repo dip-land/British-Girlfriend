@@ -38,7 +38,7 @@ module.exports = {
                                 channel.send({ embeds: [embed]})
                                 console.log(extra)
                                 DData.twitter.push(tweet.id_str)
-                                writeFile(`C:/Bots/DiscordBots/Ryoushin/rss/data/data.json`, JSON.stringify(DData, null, 1), (err) =>{ if(err) console.log(err) });
+                                writeFile(`c:/projects/DiscordBots/Ryoushin/rss/data/data.json`, JSON.stringify(DData, null, 1), (err) =>{ if(err) console.log(err) });
                             })
                             
                         }

@@ -7,7 +7,7 @@ module.exports = {
 		//const channel = interaction.options.getChannel('destination');
 		//const role = interaction.options.getRole('muted');
 		//const mentionable = interaction.options.getMentionable('mentionable');
-		require("glob")(`c:/bots/discordbots/tbg/commands/**/${interaction.commandName}.js`, function (err, res) {
+		require("glob")(`c:/projects/discordbots/tbg/commands/**/${interaction.commandName}.js`, function (err, res) {
 			res.forEach(async cmd => {
 				console.log(`${interaction.user.tag} used ${interaction.commandName}`);
 				const command = require(cmd);
