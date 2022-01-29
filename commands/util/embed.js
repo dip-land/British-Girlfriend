@@ -94,7 +94,7 @@ module.exports = {
             }
         }
     },
-    async executeInteraction(interaction, client){
+    async executeSlash(interaction, client){
         if(interaction.options.getSubcommand() === 'create'){
             const channel = interaction.options.getChannel('channel');
             let author = '', color = colors.main, description = '', footer = '', image = undefined, thumbnail = undefined, title = '', url = undefined;

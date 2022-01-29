@@ -28,8 +28,11 @@ module.exports = {
                         } else {
                             queue.queue.forEach(item => {
                                 const songInfo = item.song_information;
-                                data.push(`• ${i}. [${songInfo.title}](${songInfo.url}) [${songInfo.duration}] | Requested by ${item.requested_by.tag}`)
+                                if(i <= 5){
+                                    data.push(`• ${i}. [${songInfo.title}](${songInfo.url}) [${songInfo.duration}] | Requested by ${item.requested_by.tag}`)
+                                }
                                 fT = fT + parseInt(songInfo.duration_seconds);
+                                i++;
                             });
                         }
                         try{queueNum = queue.queue.length}catch(error){}

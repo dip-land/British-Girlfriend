@@ -21,7 +21,7 @@ module.exports = {
         if(!args[0]){message.channel.send('You must give me something to say.')} 
         else{try{message.delete()}catch(error){}message.channel.send(sayMessage)}
     },
-    async executeInteraction(interaction, client){
+    async executeSlash(interaction, client){
         interaction.member.guild.channels.fetch(interaction.channelId).then(async channel => {
             channel.send(interaction.options.getString('input'))
             await interaction.reply({ content: 'Sent Message.', ephemeral: true });

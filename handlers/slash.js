@@ -13,12 +13,12 @@ module.exports = {
 				const command = require(cmd);
 				if(command.permissions){
 					if(interaction.member.permissions.has(command.permissions)){
-						command.executeInteraction(interaction, client)
+						command.executeSlash(interaction, client)
 					}else{
 						await interaction.reply({ content: 'Hmmm, Looks like you don\'t have the correct permissions to use this command.', ephemeral: true });
 					}
 				}else{
-					command.executeInteraction(interaction, client)
+					command.executeSlash(interaction, client)
 				}
 			});
 		})

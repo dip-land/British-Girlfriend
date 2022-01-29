@@ -36,7 +36,7 @@ module.exports = {
             })
         })
     },
-    async executeInteraction(interaction, client){
+    async executeSlash(interaction, client){
         const uptime = moment.duration(client.uptime).format("d[d], hh[h], mm[m]");
         await interaction.reply({embeds:[
             new MessageEmbed()

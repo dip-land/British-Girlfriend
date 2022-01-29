@@ -30,7 +30,7 @@ module.exports = {
         });
         message.channel.send({embeds:[new MessageEmbed().setAuthor("Feed List", client.user.displayAvatarURL()).setDescription(data.join('\n')).setColor(colors.main)]})
     },
-    async executeInteraction(interaction, client){
+    async executeSlash(interaction, client){
         const data = []; 
         const feedsArray = Object.values(feeds);
         feedsArray.forEach(feed => {

@@ -50,7 +50,7 @@ module.exports = {
 			message.channel.send({embeds:[new MessageEmbed().setAuthor(`Command: ${command.name}`, avatar).setDescription(data.join('\n')).setColor(colors.main)]})
 		}
     },
-	async executeInteraction(interaction, client){
+	async executeSlash(interaction, client){
 		const {commands} = client, avatar = client.user.displayAvatarURL(), data = [];
 		if(interaction.options.getSubcommand() === "list"){
         	commands.forEach(c => {data.push(`**• ${c.name}** - *${c.description}* - *${toHMS(parseInt(c.cooldown))}*`)});

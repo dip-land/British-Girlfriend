@@ -41,8 +41,21 @@ client.on('messageCreate', message =>{
     try {require('./handlers/command.js').execute(message, client, cooldowns, prefix)} catch(error){console.error(error)}
 });
 
-client.on('interactionCreate', interaction => {
-    if(interaction.isButton() || interaction.isSelectMenu()){require('./handlers/buttons').execute(interaction)}
+client.on('interactionCreate', async interaction => {
+    if(interaction.isButton() || interaction.isSelectMenu()){
+        const data = interaction.customId.split('-');
+        if(data[1] === interaction.user.id){
+            if(interaction.customId.startsWith('cancel')){
+                interaction.message.delete();
+            } else {
+                await interaction.deferUpdate();
+                require("glob")(`c:/projects/discordbots/tbg/commands/**/${data[2].toLowerCase()}.js`, function (err, res) {
+                    const command = require(res[0]);
+                    command.executeButton(interaction, client)
+                })
+            }
+        } else { interaction.reply({ content: 'Only command initiator has access to these buttons.', ephemeral: true })}
+    }
     if(interaction.isCommand()){require('./handlers/slash').execute(interaction, client)}
 })
 

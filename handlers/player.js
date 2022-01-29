@@ -1,8 +1,8 @@
 const playdl = require('play-dl')
 const { AudioPlayerStatus, StreamType, createAudioResource, joinVoiceChannel, createAudioPlayer, getVoiceConnection } = require('@discordjs/voice');
-const data = require('../music.json');
 const player = createAudioPlayer();
 const { promisify } = require('util');
+let data = require('../music.json');
 let intervalID = null;
 stateChange('Idle')
 player.on('error', error => {
@@ -89,17 +89,17 @@ async function queue(search, message){
     const user = message.author, channel = message.channel;
     try {
         if(playdl.validate(search) === 'sp_track'){
-            channel.send('Spotify Tracks are currently not supported.')
+            message.reply('Spotify Tracks are currently not supported.')
         } else if(playdl.validate(search) === 'sp_album'){
-            channel.send('Spotify Albums are currently not supported.')
+            message.reply('Spotify Albums are currently not supported.')
         } else if(playdl.validate(search) === 'sp_playlist'){
-            channel.send('Spotify Playlists are currently not supported.')
+            message.reply('Spotify Playlists are currently not supported.')
         } else if(playdl.validate(search) === 'yt_video'){
             let videoInfo = await playdl.video_info(search)
             if(data.nowPlaying.player_status === "Idle"){
-                channel.send(`Playing \`${videoInfo.video_details.title} [${videoInfo.video_details.durationRaw}]\`. Please note, sometimes it can take a few seconds to start playing.`)
+                message.reply(`Playing \`${videoInfo.video_details.title} [${videoInfo.video_details.durationRaw}]\`. Please note, sometimes it can take a few seconds to start playing.`)
             } else {
-                channel.send(`Adding \`${videoInfo.video_details.title}\` to the queue.`)
+                message.reply(`Adding \`${videoInfo.video_details.title}\` to the queue.`)
             }
             data.queue.push({ 
                 song_information:{
@@ -119,20 +119,48 @@ async function queue(search, message){
             writeData(data);
         } else if(playdl.validate(search) === 'yt_playlist'){
             try{
-                const playlist = await playdl.playlist_info(search)
-                console.log(playlist)
-                channel.send('YouTube Playlists are currently not supported.')
+                const playlist = await playdl.playlist_info(search, true)
+                message.reply('Queueing playlist...');
+                let queued = 0, skipped = 0;
+                playlist.videos.forEach(video => {
+                    if(video.private === false){
+                        data.queue.push({ 
+                            song_information:{
+                                id: video.id,
+                                url: video.url,
+                                title: video.title,
+                                description: video.description,
+                                duration: video.durationRaw,
+                                duration_seconds: video.durationInSec
+                            },
+                            requested_by: {
+                                id: user.id,
+                                username: user.username,
+                                tag: user.tag
+                            }
+                        });
+                        queued++
+                    } else {
+                        skipped++
+                    }
+                })
+                writeData(data);
+                if(skipped > 0){
+                    message.reply(`Queued ${queued} videos and skipped ${skipped} private videos.`)
+                } else {
+                    message.reply(`Queued ${queued} videos.`)
+                }
             }catch(error){
                 console.log(error)
-                channel.send('Playlist is not public or all the videos are hidden.')
+                message.reply('Playlist is not public or all the videos are hidden.')
             }
         } else {
-            channel.send(`Searching for ${search}`)
+            message.reply(`Searching for ${search}`)
             let results = await playdl.search(search, { limit: 1, type: "video" })
             if(data.nowPlaying.player_status === "Idle"){
-                channel.send(`Playing \`${results[0].title}\` \`${results[0].durationRaw}\`. Please note, sometimes it can take a few seconds to start playing.`)
+                message.reply(`Playing \`${results[0].title}\` \`${results[0].durationRaw}\`. Please note, sometimes it can take a few seconds to start playing.`)
             } else {
-                channel.send(`Adding \`${results[0].title}\` to the queue.`)
+                message.reply(`Adding \`${results[0].title}\` to the queue.`)
             }
             data.queue.push({ 
                 song_information:{
@@ -152,8 +180,15 @@ async function queue(search, message){
             writeData(data);
         }
     } catch (error) {
-        channel.send('You must specify a search term or a url to play something. Currently only YouTube video urls work.')
+        message.reply('You must specify a search term or a url to play something. Currently only YouTube video urls work.')
     }
+}
+
+function clearQueue(){
+    while (data.queue.length){
+        data.queue.shift();
+    }
+    writeData(data);
 }
 
 function getNextSong(){
@@ -173,7 +208,7 @@ function getNextSong(){
 async function play(song){
     const stream = await playdl.stream(song);
     const resource = createAudioResource(stream.stream, { inputType: StreamType.Arbitrary, inlineVolume: true });
-    resource.volume.setVolume(0.5);
+    resource.volume.setVolume(0.6);
     player.play(resource);
 }
 
@@ -198,4 +233,4 @@ function resume(){
 }
 
 function writeData(data){require('fs').writeFile('c:/projects/DiscordBots/tbg/music.json', JSON.stringify(data, null, 2),(err)=>{if(err)console.log(err)})}
-module.exports = {join, leave, queue, play, skip, pause, resume, getNowPlaying, getQueue, toHMS}
+module.exports = {join, leave, queue, clearQueue, play, skip, pause, resume, getNowPlaying, getQueue, toHMS}
